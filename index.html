@@ -63,7 +63,10 @@
           </div>
           <div class="field" v-bind:class="{ error: !$v.pengawasanData.uraian_aktivitas.required }">
             <label>Uraian Aktivitas</label>
-            <textarea rows="2" v-model="pengawasanData.uraian_aktivitas.required" name="uraian_aktivitas"></textarea>
+            <input
+              v-model="pengawasanData.uraian_aktivitas"
+              name="uraian_aktivitas"
+            />
           </div>
         </form>
       </section>
@@ -112,9 +115,8 @@
               </tbody>
             </table>
           </div>
-          <button class="ui labeled icon primary button" type="button" @click="printPdf">
-            <i class="save icon"></i>Simpan
-          </button>
+          <button v-if="!isSubmitLoading" class="ui labeled icon primary button" @click="submit" type="button"><i class="save icon"></i>Simpan</button>
+          <button v-if="isSubmitLoading" class="ui primary loading button" type="button">Loading</button>
         </form>
       </section>
     </section>

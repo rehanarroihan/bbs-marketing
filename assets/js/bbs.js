@@ -17,6 +17,8 @@ new Vue({
         pekerjaan: null
       },
 
+      isSubmitLoading: false,
+
       pekerjaanList: [
         {
           'id': 1,
@@ -109,6 +111,55 @@ new Vue({
       })
       // Assigning new value
       this.pengawasanData.pekerjaan.questions[questionIndex].answer[answerIndex].selected = true;
+    },
+
+    submit() {
+      const self = this;
+
+      self.isSubmitLoading = true;
+
+      const url = `https://jsonblob.com/api/jsonBlob/1209635483847352320`;
+    
+      let getResult = {};
+      const xhrGet = new XMLHttpRequest();
+      xhrGet.open('GET', url, true);
+      xhrGet.setRequestHeader('Content-Type', 'application/json');
+      xhrGet.onreadystatechange = function () {
+        if (xhrGet.readyState === 4) {
+          if (xhrGet.status === 200) {
+
+
+            console.log('JSON Blob get successfully');
+            getResult = JSON.parse(xhrGet.responseText)
+
+            // Append new data to the server
+            const xhr = new XMLHttpRequest();
+            xhr.open('PUT', url, true);
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                self.isSubmitLoading = false;
+                
+                if (xhr.status === 200) {
+                  console.log('JSON Blob updated successfully:', xhr.responseText);
+                } else {
+                  console.error('Failed to update JSON Blob:', xhr.status, xhr.statusText);
+                }
+              }
+            };
+            
+            getResult.data.push(self.pengawasanData)
+            const jsonData = JSON.stringify(getResult);
+            xhr.send(jsonData);
+
+
+          } else {
+            console.error('Failed to get JSON Blob');
+          }
+        }
+      };
+
+      xhrGet.send();
     },
 
     printPdf() {
