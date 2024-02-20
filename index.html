@@ -115,6 +115,10 @@
               </tbody>
             </table>
           </div>
+
+          <div v-if="isSubmitSuccess" class="ui green message">Berhasil menyimpan data, refresh halaman untuk input data baru</div>
+          <div v-if="isSubmitFailed" class="ui red message">Gagal menyimpan data, coba lagi</div>
+
           <button v-if="!isSubmitLoading" class="ui labeled icon primary button" @click="submit" type="button"><i class="save icon"></i>Simpan</button>
           <button v-if="isSubmitLoading" class="ui primary loading button" type="button">Loading</button>
         </form>

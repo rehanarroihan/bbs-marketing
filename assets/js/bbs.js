@@ -18,6 +18,8 @@ new Vue({
       },
 
       isSubmitLoading: false,
+      isSubmitSuccess: false,
+      isSubmitFailed: false,
 
       pekerjaanList: [
         {
@@ -139,10 +141,13 @@ new Vue({
             xhr.onreadystatechange = function () {
               if (xhr.readyState === 4) {
                 self.isSubmitLoading = false;
-                
+
                 if (xhr.status === 200) {
+                  self.isSubmitSuccess = true
+                  
                   console.log('JSON Blob updated successfully:', xhr.responseText);
                 } else {
+                  self.isSubmitFailed = true
                   console.error('Failed to update JSON Blob:', xhr.status, xhr.statusText);
                 }
               }
@@ -154,6 +159,7 @@ new Vue({
 
 
           } else {
+            self.isSubmitFailed = true
             console.error('Failed to get JSON Blob');
           }
         }
