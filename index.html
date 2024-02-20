@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BBS Marketing</title>
+
+  <link rel="stylesheet" type="text/css" href="assets/vendor/semantic/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body>
+  <main id="app" class="ui container">
+    <section class="board">
+      <h3>BBS Marketing</h3>
+      <div class="ui section divider"></div>
+
+      <section class="board">
+        <h4 class="ui dividing header">Informasi Objek Pengawasan</h4>
+
+        <form class="ui form">
+          <div class="field" v-bind:class="{ error: !$v.pengawasanData.nrp_pengawas.required }">
+            <label>NRP Pengawas</label>
+            <input
+              v-model="pengawasanData.nrp_pengawas"
+              name="nrp_pengawas"
+            />
+          </div>
+          <div class="field" v-bind:class="{ error: !$v.pengawasanData.nama_pengawas.required }">
+            <label>Nama Pengawas</label>
+            <input
+              v-model="pengawasanData.nama_pengawas"
+              name="nama_pengawas"
+            />
+          </div>
+          <div class="field" v-bind:class="{ error: !$v.pengawasanData.waktu_pengawasan.required }">
+            <label>Waktu Pengawasan</label>
+            <input
+              name="waktu_pengawasan"
+              v-model="pengawasanData.waktu_pengawasan"
+              type="datetime-local"
+            />
+          </div>
+          <div class="field" v-bind:class="{ error: !$v.pengawasanData.lokasi_kerja.required }">
+            <label>Lokasi Kerja</label>
+            <input
+              v-model="pengawasanData.lokasi_kerja"
+              name="lokasi_kerja"
+            />
+          </div>
+          <div class="field" v-bind:class="{ error: !$v.pengawasanData.nama_pekerja.required }">
+            <label>Nama Pekerja</label>
+            <input
+              v-model="pengawasanData.nama_pekerja"
+              name="nama_pekerja"
+            />
+          </div>
+          <div class="field" v-bind:class="{ error: !$v.pengawasanData.perusahaan.required }">
+            <label>Perusahaan</label>
+            <input
+              v-model="pengawasanData.perusahaan"
+              name="perusahaan"
+            />
+          </div>
+          <div class="field" v-bind:class="{ error: !$v.pengawasanData.uraian_aktivitas.required }">
+            <label>Uraian Aktivitas</label>
+            <textarea rows="2" v-model="pengawasanData.uraian_aktivitas.required" name="uraian_aktivitas"></textarea>
+          </div>
+        </form>
+      </section>
+
+      <section class="board">
+        <h4 class="ui dividing header">Penilaian BBS</h4>
+        Keterangan : (A) Aman  (B) Beresiko  (NA) Not Applicable
+        <br>*Pilihan beresiko wajib diisi !
+        <br>
+        <br>
+        <form class="ui form">
+          <div class="field">
+            <label>Pekerjaan</label>
+            <select v-model="pengawasanData.type" class="ui search dropdown" @change="handlePekerjaanChange">
+              <option value="">Choose...</option>
+              <option v-for="(item, index) in pekerjaanList" :value="item.id">{{ item.desc }}</option>
+            </select>
+
+            <table class="ui celled table" v-if="pengawasanData.pekerjaan != null">
+              <thead>
+                <tr><th>No</th>
+                <th>Deskripsi Perilaku</th>
+                <th style="width: 15%">A&emsp;B&emsp;NA</th>
+              </tr></thead>
+              <tbody>
+                <tr v-for="(question, questionIndex) in pengawasanData.pekerjaan.questions">
+                  <td>{{ questionIndex+1 }}</td>
+                  <td>
+                    <p style="padding: 0; margin: 0">{{ question.title }}</p>
+                    <span style="color: green">* {{ question.description }}</span>
+
+                    <div style="margin-top: 4px" v-if="question.answer.filter(obj => obj.label == 'B')[0].selected">
+                      <div class="field">
+                        <label>Keterangan</label>
+                        <input
+                          name="remarks"
+                          v-model="pengawasanData.pekerjaan.questions[questionIndex].remarks"
+                        />
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <input v-for="(answer, answerIndex) in question.answer" @click="radioButtonAnswerChanged(questionIndex, answerIndex)" style="margin-right: 8px;" type="radio" :name="questionIndex" :value="answer.label">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button class="ui labeled icon primary button" type="button" @click="printPdf">
+            <i class="save icon"></i>Simpan
+          </button>
+        </form>
+      </section>
+    </section>
+  </main>
+</body>
+
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<script src="assets/vendor/semantic/semantic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+<script src="https://unpkg.com/vuelidate/dist/validators.min.js"></script>
+  <script src="https://unpkg.com/vuelidate/dist/vuelidate.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+  <script src="assets/js/data.js"></script>
+  <script src="assets/js/bbs.js"></script>
+<script>
+  $('.dropdown').dropdown();
+  $('.timepicker').timepicker({
+    timeFormat: 'HH:mm',
+    interval: 60,
+    minTime: '00',
+    maxTime: '23:00',
+    defaultTime: '17',
+    startTime: '00:00',
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
+  });
+</script>
+</html>

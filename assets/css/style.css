@@ -1,0 +1,66 @@
+body {
+  background-color: #f3f4f5;
+}
+
+.main {
+  padding: 0 188px;
+}
+
+.board {
+  border-radius: 4px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+  border: solid 1px #eaedf3;
+  background-color: #ffffff;
+  padding: 24px;
+  margin: 18px 0;
+}
+
+.invisible {
+  visibility: hidden;
+  margin: 2px 0;
+}
+
+/* dashboard card */
+.card .content {
+  text-align: center;
+}
+.card .content i {
+  margin-top: 22px;
+  font-size: 42px;
+  color: #cacaca;
+}
+.card .content .count {
+  display: inline-block;
+  margin-left: 16px;
+  font-size: 42px;
+}
+.card .content .text {
+  display: inline-block;
+  font-size: 24px;
+}
+
+.ui.section.divider {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.image-choice {
+  margin-bottom: 8px;
+}
+
+#map {
+  height: 100%;
+}
+
+.searching-location {
+  margin-top: 8px;
+}
+
+.validation-error {
+  color: #e0b4b4;
+  margin-top: 8px;
+}
+
+.eventType {
+  text-transform: capitalize;
+}
