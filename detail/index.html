@@ -90,6 +90,56 @@
           </div>
         </form>
       </section>
+
+      <section class="board" v-if="pengawasanData.pekerjaan != null">
+        <form class="ui form">
+          <div class="field">
+            <label>Pekerjaan</label>
+            <input
+              v-model="pengawasanData.pekerjaan.desc"
+              readonly
+            />
+          </div>
+
+          <table class="ui celled table" v-if="pengawasanData.pekerjaan != null">
+            <thead>
+              <tr><th>No</th>
+              <th>Deskripsi Perilaku</th>
+              <th style="width: 15%">A&emsp;B&emsp;NA</th>
+            </tr></thead>
+            <tbody>
+              <tr v-for="(question, questionIndex) in pengawasanData.pekerjaan.questions">
+                <td>{{ questionIndex+1 }}</td>
+                <td>
+                  <p style="padding: 0; margin: 0">{{ question.title }}</p>
+                  <span style="color: green">* {{ question.description }}</span>
+
+                  <div style="margin-top: 4px" v-if="question.answer.filter(obj => obj.label == 'B')[0].selected">
+                    <div class="field">
+                      <label>Keterangan</label>
+                      <input
+                        name="remarks"
+                        v-model="pengawasanData.pekerjaan.questions[questionIndex].remarks"
+                        readonly
+                      />
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <input
+                    v-for="(answer, answerIndex) in question.answer"
+                    style="margin-right: 8px;"
+                    type="radio"
+                    :name="questionIndex"
+                    :value="answer.label"
+                    :checked="answer.selected"
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </section>
     </section>
   </main>
 </body>
@@ -105,7 +155,6 @@
 
   <script src="assets/js/data.js"></script>
   <script src="../assets/js/detail.js"></script>
-  <script src="../assets/js/437.json"></script>
 <script>
   $('.dropdown').dropdown();
   $('.timepicker').timepicker({
