@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail | BBS Marketing</title>
+
+  <link rel="stylesheet" type="text/css" href="../assets/vendor/semantic/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
+</head>
+<body>
+  <main id="app" class="ui container">
+    <section class="board">
+      <h3>Detail Form Hasil</h3>
+      <div class="ui section divider"></div>
+
+      <section class="board">
+        <h4 class="ui dividing header">Masukkan Index Data, lalu tekan enter</h4>
+        <form class="ui form">
+          <div class="field">
+            <input
+              v-model="index"
+              name="index"
+            />
+          </div>
+          <button class="ui labeled icon primary button" @click="submit" type="button"><i class="save icon"></i>Cari</button>
+        </form>
+      </section>
+
+      <section class="board">
+        <h4 class="ui dividing header">Informasi Objek Pengawasan</h4>
+
+        <form class="ui form">
+          <div class="field">
+            <label>NRP Pengawas</label>
+            <input
+              v-model="pengawasanData.nrp_pengawas"
+              name="nrp_pengawas"
+              readonly
+            />
+          </div>
+          <div class="field">
+            <label>Nama Pengawas</label>
+            <input
+              v-model="pengawasanData.nama_pengawas"
+              name="nama_pengawas"
+              readonly
+            />
+          </div>
+          <div class="field">
+            <label>Waktu Pengawasan</label>
+            <input
+              name="waktu_pengawasan"
+              v-model="pengawasanData.waktu_pengawasan"
+              type="datetime-local"
+              readonly
+            />
+          </div>
+          <div class="field">
+            <label>Lokasi Kerja</label>
+            <input
+              v-model="pengawasanData.lokasi_kerja"
+              name="lokasi_kerja"
+              readonly
+            />
+          </div>
+          <div class="field">
+            <label>Nama Pekerja</label>
+            <input
+              v-model="pengawasanData.nama_pekerja"
+              name="nama_pekerja"
+              readonly
+            />
+          </div>
+          <div class="field">
+            <label>Perusahaan</label>
+            <input
+              v-model="pengawasanData.perusahaan"
+              name="perusahaan"
+              readonly
+            />
+          </div>
+          <div class="field">
+            <label>Uraian Aktivitas</label>
+            <input
+              v-model="pengawasanData.uraian_aktivitas"
+              name="uraian_aktivitas"
+              readonly
+            />
+          </div>
+        </form>
+      </section>
+    </section>
+  </main>
+</body>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+<script src="../assets/vendor/semantic/semantic.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+<script src="https://unpkg.com/vuelidate/dist/validators.min.js"></script>
+  <script src="https://unpkg.com/vuelidate/dist/vuelidate.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+  <script src="assets/js/data.js"></script>
+  <script src="../assets/js/detail.js"></script>
+  <script src="../assets/js/437.json"></script>
+<script>
+  $('.dropdown').dropdown();
+  $('.timepicker').timepicker({
+    timeFormat: 'HH:mm',
+    interval: 60,
+    minTime: '00',
+    maxTime: '23:00',
+    defaultTime: '17',
+    startTime: '00:00',
+    dynamic: false,
+    dropdown: true,
+    scrollbar: true
+  });
+</script>
+</html>
