@@ -29,7 +29,7 @@ new Vue({
     submit() {
       const self = this;
 
-      const url = '/assets/js/437.json';
+      const url = 'https://multazamgsd.com/form-bbs/assets/js/437.json';
     
       let getResult = {};
       const xhrGet = new XMLHttpRequest();
